@@ -13,7 +13,7 @@ SECRET_KEY = '(_7ql%4%93^ap16$sy!&4kqddlgn-t1sa3db0@pi!=$2edje&2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','https://still-oasis-23385.herokuapp.com/']
+ALLOWED_HOSTS = ['0.0.0.0','still-oasis-23385.herokuapp.com']
 
 
 # Application definition
