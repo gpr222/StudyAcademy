@@ -1,0 +1,62 @@
+{% extends 'courses/base.html' %}
+{% load course_custom_tags %}
+{% block title %} CheckOut {% endblock %}
+{% block content %}
+<br />
+<div class="container">
+    <br><br>
+    <div class="row">
+        <div class="col-4 ">
+            <div class="card ms-auto" style="width: 18rem">
+                <img src="{{course.thumbnail.url}}" class="card-img-top" alt="..." />
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text">{{course.description}}</p>
+                    <p class="card-text">
+                        Save {{course.discount}}% <br />
+                        <span class="fw-bold">
+                            <del>{{course.price|amount}}</del> &nbsp;
+                            <span>{% cal_sellPrice course.price course.discount as value %}{{value|amount}}</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <h1>{{course.name}}</h1>
+            <hr>
+            <h2>Payable Amount : <b>{% cal_sellPrice course.price course.discount as value %}{{value|amount}}</b></h2>
+            <a href="?action=create_payment" class="btn btn-light border">Continue to Pay</a>
+        </div>
+    </div>
+</div>
+{% if order is not None %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "rzp_test_lTB1Ho8qztHPra", // Enter the Key ID generated from the Dashboard
+        "name": "Code With RG",
+        "description": "Transaction for {{course.name}}",
+        "image": "https://png.pngtree.com/element_pic/00/16/07/115783931601b5c.jpg",
+        "order_id": "{{order.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "http://localhost:8000/verify_payment",
+        "prefill": {
+            "name": "{{user.first_name}}",
+            "email": "{{user.email}}",
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+</script>
+{% endif %}
+{% if error is not None %}
+<script>
+    window.onload = () => {
+        alert('{{error}}');
+    }
+</script>
+{% endif %}
+{% endblock %}

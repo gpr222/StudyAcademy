@@ -1,0 +1,17 @@
+{% extends 'courses/base.html' %}
+{% load course_custom_tags %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<br />
+<div class="container">
+    <h1 class="display-1">Login</h1>
+    <hr>
+    <div>
+        <form action="/login" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</div>
+{% endblock %}
